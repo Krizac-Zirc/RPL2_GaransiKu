@@ -16,8 +16,8 @@ public class BerandaFrame extends JFrame {
 
     private static final String[][] FITUR = {
         {"Registrasi dan Login", "Selesai"},
-        {"Tambah / Ubah / Hapus Data Barang", "Belum tersedia"},
-        {"Lihat Daftar Barang", "Belum tersedia"},
+        {"Tambah / Ubah / Hapus Data Barang", "Selesai"},
+        {"Lihat Daftar Barang", "Selesai"},
         {"Pencarian dan Penyaringan", "Belum tersedia"},
         {"Pengingat Masa Garansi", "Belum tersedia"},
     };
@@ -39,6 +39,9 @@ public class BerandaFrame extends JFrame {
             isi.add(Box.createVerticalStrut(8));
         }
         isi.add(Box.createVerticalStrut(10));
+        JButton btnBarang = UI.tombol("Kelola Data Barang", true);
+        isi.add(UI.rata(btnBarang));
+        isi.add(Box.createVerticalStrut(8));
         JButton btnLogout = UI.tombol("Logout", false);
         isi.add(UI.rata(btnLogout));
 
@@ -47,6 +50,10 @@ public class BerandaFrame extends JFrame {
                 "Login sebagai @" + pengguna.getUsername(), 110, 20), BorderLayout.NORTH);
         getContentPane().add(isi, BorderLayout.CENTER);
 
+        btnBarang.addActionListener(e -> {
+            dispose();
+            new BarangForm(pengguna).setVisible(true);
+        });
         btnLogout.addActionListener(e -> {
             dispose();
             new LoginForm().setVisible(true);

@@ -2,20 +2,49 @@ package com.mycompany.mavenproject1;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
- * Kelas model Barang.
+ * Kelas model Barang sekaligus entity Hibernate (tabel "barang").
  * Seluruh atribut bersifat private (Encapsulation) dan hanya dapat
- * diakses melalui method getter dan setter.
+ * diakses melalui method getter dan setter. Anotasi dipasang pada atribut
+ * sehingga Hibernate membaca atribut langsung; method turunan seperti
+ * getStatus() tidak ikut dipetakan menjadi kolom.
  */
+@Entity
+@Table(name = "barang")
 public class Barang {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "nama", nullable = false)
     private String nama;
+
+    @Column(name = "merek")
     private String merek;
+
+    @Column(name = "tanggal_beli", nullable = false)
     private LocalDate tanggalBeli;
+
+    @Column(name = "lama_garansi_bulan", nullable = false)
     private int lamaGaransiBulan;
+
+    @Column(name = "lokasi_nota")
     private String lokasiNota;
+
+    /** Id pengguna pemilik barang (kolom biasa, tanpa relasi ke entity lain). */
+    @Column(name = "pengguna_id", nullable = false)
+    private int penggunaId;
+
+    /** Konstruktor kosong wajib ada agar Hibernate dapat membuat objek dari baris tabel. */
+    public Barang() { }
 
     public Barang(int id, String nama, String merek, LocalDate tanggalBeli,
                   int lamaGaransiBulan, String lokasiNota) {
@@ -34,6 +63,7 @@ public class Barang {
     public LocalDate getTanggalBeli() { return tanggalBeli; }
     public int getLamaGaransiBulan() { return lamaGaransiBulan; }
     public String getLokasiNota() { return lokasiNota; }
+    public int getPenggunaId() { return penggunaId; }
 
     // ---------- Setter (dengan validasi) ----------
     public void setNama(String nama) {
@@ -64,6 +94,8 @@ public class Barang {
     public void setLokasiNota(String lokasiNota) {
         this.lokasiNota = (lokasiNota == null || lokasiNota.isBlank()) ? "-" : lokasiNota.trim();
     }
+
+    public void setPenggunaId(int penggunaId) { this.penggunaId = penggunaId; }
 
     // ---------- Method turunan ----------
     public LocalDate getTanggalBerakhir() {

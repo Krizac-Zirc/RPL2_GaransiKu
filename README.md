@@ -17,8 +17,9 @@ Tugas Rekayasa Perangkat Lunak 2 (RPL 2), Universitas Gunadarma.
 | Registrasi akun | Selesai |
 | Login | Selesai |
 | Beranda | Selesai (tampilan awal) |
-| Tambah, ubah, hapus barang | Belum dikerjakan |
-| Daftar, pencarian, dan penyaringan barang | Belum dikerjakan |
+| Tambah, ubah, hapus barang (Hibernate) | Selesai |
+| Daftar barang | Selesai |
+| Pencarian dan penyaringan barang | Belum dikerjakan |
 | Pengingat garansi | Belum dikerjakan |
 | Laporan (JasperReports) | Belum dikerjakan |
 
@@ -26,7 +27,8 @@ Tugas Rekayasa Perangkat Lunak 2 (RPL 2), Universitas Gunadarma.
 
 - Java 17, Swing (GUI Builder NetBeans)
 - Maven
-- MySQL (XAMPP) dengan JDBC (`mysql-connector-j`)
+- MySQL (XAMPP) dengan JDBC (`mysql-connector-j`) untuk akun pengguna
+- Hibernate 5.6.15.Final (ORM) untuk data barang
 - Penyimpanan kata sandi: PBKDF2WithHmacSHA256 dengan salt acak
 - Pola DAO dan PreparedStatement
 
@@ -44,7 +46,7 @@ Tugas Rekayasa Perangkat Lunak 2 (RPL 2), Universitas Gunadarma.
 4. Klik kanan proyek, pilih **Clean and Build** agar dependensi terunduh.
 5. Jalankan `Mavenproject1.java` atau `LoginForm.java`.
 
-Basis data `garansiku` dan tabel `pengguna` dibuat otomatis saat aplikasi pertama kali dijalankan, sehingga tidak ada berkas SQL yang perlu diimpor.
+Basis data `garansiku` dan tabel `pengguna` dibuat otomatis saat aplikasi pertama kali dijalankan, sedangkan tabel `barang` dibuat otomatis oleh Hibernate saat form Data Barang pertama kali dibuka, sehingga tidak ada berkas SQL yang perlu diimpor. Pengaturan koneksi pada `db.properties` dan `hibernate.cfg.xml` harus sama.
 
 ## Struktur Proyek
 
@@ -54,13 +56,17 @@ src/main/java/com/mycompany/mavenproject1/
     LoginForm.java         tampilan login (+ LoginForm.form)
     RegistrasiFrame.java   tampilan registrasi
     BerandaFrame.java      tampilan beranda
+    BarangForm.java        tampilan data barang (+ BarangForm.form)
     UI.java                komponen tampilan bersama
     AuthService.java       validasi registrasi dan login
-    PenggunaDAO.java       akses data tabel pengguna
+    PenggunaDAO.java       akses data tabel pengguna (JDBC)
+    BarangDAO.java         akses data tabel barang (Hibernate)
+    HibernateUtil.java     pembuat SessionFactory
     Database.java          koneksi MySQL dan pembuatan tabel
     PasswordUtil.java      hash kata sandi
     Pengguna.java          model pengguna
-    Barang.java            model barang
+    Barang.java            model barang sekaligus entity Hibernate
 src/main/resources/
-    db.properties          pengaturan koneksi MySQL
+    db.properties          pengaturan koneksi MySQL (JDBC)
+    hibernate.cfg.xml      pengaturan Hibernate
 ```
