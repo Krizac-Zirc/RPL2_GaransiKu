@@ -4,11 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <!-- Koneksi (samakan dengan db.properties) -->
-        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/garansiku?useUnicode=true&amp;characterEncoding=UTF-8</property>
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password"></property>
+        <!-- Koneksi (driver, url, user, password) kini berasal dari DataSource di applicationContext.xml -->
 
         <!-- Dialect untuk MariaDB 10.4 bawaan XAMPP; untuk MySQL 8 ganti MySQL8Dialect -->
         <property name="hibernate.dialect">org.hibernate.dialect.MariaDB103Dialect</property>
@@ -20,6 +16,6 @@
         <!-- Tampilkan SQL buatan Hibernate di jendela Output -->
         <property name="hibernate.show_sql">true</property>
 
-        <mapping class="com.mycompany.mavenproject1.Barang"/>
+        <mapping class="com.mycompany.mavenproject1.model.Barang"/>
     </session-factory>
 </hibernate-configuration>

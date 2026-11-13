@@ -1,5 +1,7 @@
-package com.mycompany.mavenproject1;
+package com.mycompany.mavenproject1.service;
 
+import com.mycompany.mavenproject1.dao.PenggunaDAO;
+import com.mycompany.mavenproject1.model.Pengguna;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 

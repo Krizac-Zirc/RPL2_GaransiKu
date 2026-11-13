@@ -1,5 +1,7 @@
-package com.mycompany.mavenproject1;
+package com.mycompany.mavenproject1.view;
 
+import com.mycompany.mavenproject1.service.AuthService;
+import com.mycompany.mavenproject1.util.UI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;

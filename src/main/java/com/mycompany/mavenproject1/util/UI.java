@@ -1,4 +1,4 @@
-package com.mycompany.mavenproject1;
+package com.mycompany.mavenproject1.util;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -23,45 +23,45 @@ import javax.swing.JTextField;
 /**
  * Kumpulan warna dan komponen bergaya seragam untuk seluruh tampilan GaransiKu.
  */
-final class UI {
+public final class UI {
 
-    static final Color PRIMARY = new Color(0x0F766E);
-    static final Color PRIMARY_GELAP = new Color(0x115E59);
-    static final Color TEKS = new Color(0x1F2937);
-    static final Color ABU = new Color(0x6B7280);
-    static final Color GARIS = new Color(0xD1D5DB);
-    static final Color MERAH = new Color(0xB91C1C);
-    static final Color HIJAU = new Color(0x15803D);
+    public static final Color PRIMARY = new Color(0x0F766E);
+    public static final Color PRIMARY_GELAP = new Color(0x115E59);
+    public static final Color TEKS = new Color(0x1F2937);
+    public static final Color ABU = new Color(0x6B7280);
+    public static final Color GARIS = new Color(0xD1D5DB);
+    public static final Color MERAH = new Color(0xB91C1C);
+    public static final Color HIJAU = new Color(0x15803D);
 
     private UI() { }
 
-    static Font font(int gaya, int ukuran) {
+    public static Font font(int gaya, int ukuran) {
         return new Font("Segoe UI", gaya, ukuran);
     }
 
-    static <T extends JComponent> T rata(T c) {
+    public static <T extends JComponent> T rata(T c) {
         c.setAlignmentX(Component.LEFT_ALIGNMENT);
         return c;
     }
 
-    static JLabel label(String teks, int gaya, int ukuran, Color warna) {
+    public static JLabel label(String teks, int gaya, int ukuran, Color warna) {
         JLabel l = new JLabel(teks);
         l.setFont(font(gaya, ukuran));
         l.setForeground(warna);
         return l;
     }
 
-    static JLabel labelKesalahan() {
+    public static JLabel labelKesalahan() {
         return label(" ", Font.PLAIN, 12, MERAH);
     }
 
-    static JTextField field() {
+    public static JTextField field() {
         JTextField f = new JTextField();
         gayaField(f);
         return f;
     }
 
-    static JPasswordField passwordField() {
+    public static JPasswordField passwordField() {
         JPasswordField f = new JPasswordField();
         gayaField(f);
         return f;
@@ -78,11 +78,11 @@ final class UI {
     }
 
     /** Panel judul berwarna di bagian atas setiap jendela. */
-    static JPanel header(String judul, String subjudul, int tinggi) {
+    public static JPanel header(String judul, String subjudul, int tinggi) {
         return header(judul, subjudul, tinggi, 26);
     }
 
-    static JPanel header(String judul, String subjudul, int tinggi, int ukuranJudul) {
+    public static JPanel header(String judul, String subjudul, int tinggi, int ukuranJudul) {
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setBackground(PRIMARY);
@@ -97,7 +97,7 @@ final class UI {
     }
 
     /** Tombol utama (terisi) atau tombol garis tepi. */
-    static JButton tombol(String teks, boolean terisi) {
+    public static JButton tombol(String teks, boolean terisi) {
         TombolBulat t = new TombolBulat(teks, terisi);
         t.setPreferredSize(new Dimension(200, 44));
         t.setMaximumSize(new Dimension(Integer.MAX_VALUE, 44));
@@ -105,7 +105,7 @@ final class UI {
     }
 
     /** Tombol berbentuk tautan teks. */
-    static JButton tautan(String teks) {
+    public static JButton tautan(String teks) {
         JButton b = new JButton(teks);
         b.setFont(font(Font.BOLD, 13));
         b.setForeground(PRIMARY);

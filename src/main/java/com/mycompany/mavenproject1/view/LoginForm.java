@@ -1,5 +1,8 @@
-package com.mycompany.mavenproject1;
+package com.mycompany.mavenproject1.view;
 
+import com.mycompany.mavenproject1.model.Pengguna;
+import com.mycompany.mavenproject1.service.AuthService;
+import com.mycompany.mavenproject1.util.Database;
 import java.sql.SQLException;
 
 /**

@@ -1,4 +1,4 @@
-package com.mycompany.mavenproject1;
+package com.mycompany.mavenproject1.model;
 
 /**
  * Model Pengguna (akun yang terdaftar di GaransiKu).

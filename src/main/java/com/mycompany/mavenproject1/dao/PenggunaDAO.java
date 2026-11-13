@@ -1,5 +1,8 @@
-package com.mycompany.mavenproject1;
+package com.mycompany.mavenproject1.dao;
 
+import com.mycompany.mavenproject1.model.Pengguna;
+import com.mycompany.mavenproject1.util.Database;
+import com.mycompany.mavenproject1.util.PasswordUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

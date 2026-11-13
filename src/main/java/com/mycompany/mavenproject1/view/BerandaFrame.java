@@ -1,5 +1,9 @@
-package com.mycompany.mavenproject1;
+package com.mycompany.mavenproject1.view;
 
+import com.mycompany.mavenproject1.model.Pengguna;
+import com.mycompany.mavenproject1.service.BarangService;
+import com.mycompany.mavenproject1.util.AppContext;
+import com.mycompany.mavenproject1.util.UI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -52,7 +56,9 @@ public class BerandaFrame extends JFrame {
 
         btnBarang.addActionListener(e -> {
             dispose();
-            new BarangForm(pengguna).setVisible(true);
+            // Service diambil dari container Spring (bukan dibuat dengan new)
+            BarangService service = AppContext.getBean("serviceBarang", BarangService.class);
+            new BarangForm(pengguna, service).setVisible(true);
         });
         btnLogout.addActionListener(e -> {
             dispose();

@@ -1,4 +1,4 @@
-package com.mycompany.mavenproject1;
+package com.mycompany.mavenproject1.model;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

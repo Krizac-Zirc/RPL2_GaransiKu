@@ -1,5 +1,8 @@
-package com.mycompany.mavenproject1;
+package com.mycompany.mavenproject1.view;
 
+import com.mycompany.mavenproject1.model.Barang;
+import com.mycompany.mavenproject1.model.Pengguna;
+import com.mycompany.mavenproject1.service.BarangService;
 import java.awt.Color;
 import java.awt.Component;
 import java.time.LocalDate;
@@ -30,7 +33,7 @@ public class BarangForm extends javax.swing.JFrame {
     private static final Color MERAH = new Color(0xB9, 0x1C, 0x1C);
 
     private final Pengguna pengguna;
-    private final BarangDAO dao = new BarangDAO();
+    private final BarangService service;   // disuntikkan dari luar (Spring), bukan new BarangDAO()
     private List<Barang> daftar = new ArrayList<>();
     private DefaultTableModel modelTabel;
     private Barang terpilih;   // barang yang sedang dipilih pada tabel
@@ -38,8 +41,9 @@ public class BarangForm extends javax.swing.JFrame {
     /**
      * Creates new form BarangForm
      */
-    public BarangForm(Pengguna pengguna) {
+    public BarangForm(Pengguna pengguna, BarangService service) {
         this.pengguna = pengguna;
+        this.service = service;
         initComponents();
         // ---- pengaturan tambahan di luar GUI Builder ----
         getContentPane().setBackground(java.awt.Color.WHITE);
@@ -87,7 +91,7 @@ public class BarangForm extends javax.swing.JFrame {
     /** Membaca ulang barang milik pengguna dari database lalu menampilkannya di tabel. */
     private void muatData() {
         try {
-            daftar = dao.daftarMilik(pengguna.getId());
+            daftar = service.daftarMilik(pengguna.getId());
             modelTabel.setRowCount(0);
             for (Barang b : daftar) {
                 modelTabel.addRow(new Object[]{
@@ -439,7 +443,7 @@ public class BarangForm extends javax.swing.JFrame {
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         try {
             Barang baru = bacaForm(0);
-            dao.tambah(baru);
+            service.tambah(baru);
             muatData();
             kosongkanForm();
             pesan("Barang \"" + baru.getNama() + "\" berhasil ditambahkan.", false);
@@ -457,7 +461,7 @@ public class BarangForm extends javax.swing.JFrame {
         }
         try {
             Barang baru = bacaForm(terpilih.getId());
-            boolean berhasil = dao.ubah(baru, pengguna.getId());
+            boolean berhasil = service.ubah(baru, pengguna.getId());
             muatData();
             if (berhasil) {
                 kosongkanForm();
@@ -485,7 +489,7 @@ public class BarangForm extends javax.swing.JFrame {
         }
         try {
             String nama = terpilih.getNama();
-            boolean berhasil = dao.hapus(terpilih.getId(), pengguna.getId());
+            boolean berhasil = service.hapus(terpilih.getId(), pengguna.getId());
             muatData();
             kosongkanForm();
             if (berhasil) {

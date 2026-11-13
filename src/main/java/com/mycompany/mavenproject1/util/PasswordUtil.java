@@ -1,4 +1,4 @@
-package com.mycompany.mavenproject1;
+package com.mycompany.mavenproject1.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;

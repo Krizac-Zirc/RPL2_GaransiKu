@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- Sumber koneksi database (samakan dengan db.properties) -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/garansiku?useSSL=false&amp;serverTimezone=UTC"/>
+        <property name="username" value="root"/>
+        <property name="password" value=""/>
+    </bean>
+
+    <!-- SessionFactory Hibernate dibuat dan dikelola Spring; pengaturan lain dibaca dari hibernate.cfg.xml -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+    </bean>
+
+    <!-- Pengelola transaksi untuk Hibernate -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- Mengaktifkan transaksi deklaratif lewat anotasi @Transactional -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- Mengaktifkan AOP berbasis anotasi (@Aspect) -->
+    <aop:aspectj-autoproxy/>
+
+    <!-- DAO barang: SessionFactory disuntikkan lewat setter -->
+    <bean id="daoBarang" class="com.mycompany.mavenproject1.dao.BarangDAO">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- Service barang: DAO disuntikkan lewat setter -->
+    <bean id="serviceBarang" class="com.mycompany.mavenproject1.service.BarangService">
+        <property name="barangDAO" ref="daoBarang"/>
+    </bean>
+
+    <!-- Aspek logging untuk semua method BarangService -->
+    <bean id="logAspect" class="com.mycompany.mavenproject1.service.LogAspect"/>
+</beans>
