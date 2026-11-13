@@ -17,8 +17,8 @@ Tugas Rekayasa Perangkat Lunak 2 (RPL 2), Universitas Gunadarma.
 | Registrasi akun | Selesai |
 | Login | Selesai |
 | Beranda | Selesai (tampilan awal) |
-| Tambah, ubah, hapus barang (Hibernate) | Selesai |
-| Daftar barang | Selesai |
+| Tambah, ubah, hapus barang (Hibernate) | Sedang Dikerjakan |
+| Daftar barang | Sedang Dikerjakan |
 | Pencarian dan penyaringan barang | Belum dikerjakan |
 | Pengingat garansi | Belum dikerjakan |
 | Laporan (JasperReports) | Belum dikerjakan |
