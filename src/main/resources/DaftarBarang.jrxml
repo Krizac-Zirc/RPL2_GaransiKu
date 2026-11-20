@@ -1,15 +1,119 @@
-<!-- Created with Jaspersoft Studio version 7.0.8.final using JasperReports Library version 7.0.8-6f896111  -->
-<jasperReport name="Blank_A4" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0fe3f48a-fd44-4fcd-8b31-06f1eb692f05">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<query language="sql"><![CDATA[]]></query>
-	<background splitType="Stretch"/>
-	<title height="79" splitType="Stretch"/>
-	<pageHeader height="35" splitType="Stretch"/>
-	<columnHeader height="61" splitType="Stretch"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Laporan Daftar Barang dan Garansi - GaransiKu. Dapat dibuka dan diubah di Jaspersoft Studio 7.0.8. -->
+<jasperReport name="DaftarBarang" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0fe3f48a-fd44-4fcd-8b31-06f1eb692f05">
+	<parameter name="PEMILIK" class="java.lang.String"/>
+	<parameter name="KETERANGAN" class="java.lang.String"/>
+	<parameter name="TANGGAL_CETAK" class="java.lang.String"/>
+	<field name="nama" class="java.lang.String"/>
+	<field name="merek" class="java.lang.String"/>
+	<field name="tanggalBeli" class="java.time.LocalDate"/>
+	<field name="tanggalBerakhir" class="java.time.LocalDate"/>
+	<field name="sisaHari" class="java.lang.Long"/>
+	<field name="status" class="java.lang.String"/>
+	<variable name="JUMLAH" calculation="Count" class="java.lang.Integer">
+		<expression><![CDATA[$F{nama}]]></expression>
+	</variable>
+	<title height="78">
+		<element kind="staticText" x="0" y="0" width="555" height="28" fontSize="18.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[LAPORAN DAFTAR BARANG DAN GARANSI]]></text>
+		</element>
+		<element kind="textField" x="0" y="28" width="555" height="18" fontSize="11.0" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA["GaransiKu - Pemilik: " + $P{PEMILIK}]]></expression>
+		</element>
+		<element kind="textField" x="0" y="46" width="555" height="16" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA[$P{KETERANGAN} + " | Dicetak: " + $P{TANGGAL_CETAK}]]></expression>
+		</element>
+		<element kind="line" x="0" y="70" width="555" height="1"/>
+	</title>
+	<columnHeader height="24">
+		<element kind="staticText" mode="Opaque" backcolor="#0F766E" forecolor="#FFFFFF" x="0" y="0" width="30" height="24" fontSize="10.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[No]]></text>
+		</element>
+		<element kind="staticText" mode="Opaque" backcolor="#0F766E" forecolor="#FFFFFF" x="30" y="0" width="140" height="24" fontSize="10.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Nama Barang]]></text>
+		</element>
+		<element kind="staticText" mode="Opaque" backcolor="#0F766E" forecolor="#FFFFFF" x="170" y="0" width="90" height="24" fontSize="10.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Merek]]></text>
+		</element>
+		<element kind="staticText" mode="Opaque" backcolor="#0F766E" forecolor="#FFFFFF" x="260" y="0" width="70" height="24" fontSize="10.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Tanggal Beli]]></text>
+		</element>
+		<element kind="staticText" mode="Opaque" backcolor="#0F766E" forecolor="#FFFFFF" x="330" y="0" width="70" height="24" fontSize="10.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Berakhir]]></text>
+		</element>
+		<element kind="staticText" mode="Opaque" backcolor="#0F766E" forecolor="#FFFFFF" x="400" y="0" width="55" height="24" fontSize="10.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Sisa Hari]]></text>
+		</element>
+		<element kind="staticText" mode="Opaque" backcolor="#0F766E" forecolor="#FFFFFF" x="455" y="0" width="100" height="24" fontSize="10.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Status]]></text>
+		</element>
+	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="22">
+			<element kind="textField" x="0" y="0" width="30" height="22" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$V{REPORT_COUNT}]]></expression>
+				<box>
+					<pen lineWidth="0.5" lineColor="#D1D5DB"/>
+				</box>
+			</element>
+			<element kind="textField" x="30" y="0" width="140" height="22" fontSize="10.0" vTextAlign="Middle">
+				<expression><![CDATA[$F{nama}]]></expression>
+				<box leftPadding="4">
+					<pen lineWidth="0.5" lineColor="#D1D5DB"/>
+				</box>
+			</element>
+			<element kind="textField" x="170" y="0" width="90" height="22" fontSize="10.0" vTextAlign="Middle">
+				<expression><![CDATA[$F{merek}]]></expression>
+				<box leftPadding="4">
+					<pen lineWidth="0.5" lineColor="#D1D5DB"/>
+				</box>
+			</element>
+			<element kind="textField" x="260" y="0" width="70" height="22" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{tanggalBeli}.format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy"))]]></expression>
+				<box>
+					<pen lineWidth="0.5" lineColor="#D1D5DB"/>
+				</box>
+			</element>
+			<element kind="textField" x="330" y="0" width="70" height="22" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{tanggalBerakhir}.format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy"))]]></expression>
+				<box>
+					<pen lineWidth="0.5" lineColor="#D1D5DB"/>
+				</box>
+			</element>
+			<element kind="textField" x="400" y="0" width="55" height="22" fontSize="10.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{sisaHari}]]></expression>
+				<box>
+					<pen lineWidth="0.5" lineColor="#D1D5DB"/>
+				</box>
+			</element>
+			<!-- Conditional printing: status Kedaluwarsa dicetak merah, status lain hijau -->
+			<element kind="textField" forecolor="#B91C1C" x="455" y="0" width="100" height="22" fontSize="10.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<printWhenExpression><![CDATA[$F{status}.equals("Kedaluwarsa")]]></printWhenExpression>
+				<expression><![CDATA[$F{status}]]></expression>
+				<box>
+					<pen lineWidth="0.5" lineColor="#D1D5DB"/>
+				</box>
+			</element>
+			<element kind="textField" forecolor="#15803D" x="455" y="0" width="100" height="22" fontSize="10.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<printWhenExpression><![CDATA[!$F{status}.equals("Kedaluwarsa")]]></printWhenExpression>
+				<expression><![CDATA[$F{status}]]></expression>
+				<box>
+					<pen lineWidth="0.5" lineColor="#D1D5DB"/>
+				</box>
+			</element>
+		</band>
 	</detail>
-	<columnFooter height="45" splitType="Stretch"/>
-	<pageFooter height="54" splitType="Stretch"/>
-	<summary height="42" splitType="Stretch"/>
+	<pageFooter height="22">
+		<element kind="textField" x="0" y="4" width="455" height="16" fontSize="9.0" hTextAlign="Right">
+			<expression><![CDATA["Halaman " + $V{PAGE_NUMBER} + " dari"]]></expression>
+		</element>
+		<element kind="textField" evaluationTime="Report" x="455" y="4" width="100" height="16" fontSize="9.0">
+			<expression><![CDATA[" " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+	</pageFooter>
+	<summary height="30">
+		<element kind="textField" x="0" y="8" width="555" height="18" fontSize="10.0" bold="true">
+			<expression><![CDATA["Jumlah barang: " + $V{JUMLAH}]]></expression>
+		</element>
+	</summary>
 </jasperReport>

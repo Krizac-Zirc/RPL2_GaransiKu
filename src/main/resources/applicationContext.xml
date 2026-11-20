@@ -43,6 +43,9 @@
         <property name="barangDAO" ref="daoBarang"/>
     </bean>
 
+    <!-- Service laporan JasperReports (tanpa dependensi lain) -->
+    <bean id="serviceLaporan" class="com.mycompany.mavenproject1.service.LaporanService"/>
+
     <!-- Aspek logging untuk semua method BarangService -->
     <bean id="logAspect" class="com.mycompany.mavenproject1.service.LogAspect"/>
 </beans>

@@ -31,6 +31,25 @@ public class BarangService {
         return barangDAO.daftarMilik(penggunaId);
     }
 
+    /** Pencarian berdasarkan nama/merek, disaring menurut status ("Semua", "Aktif", "Hampir Berakhir", "Kedaluwarsa"). */
+    @Transactional(readOnly = true)
+    public List<Barang> cari(int penggunaId, String kata, String status) {
+        List<Barang> hasil = barangDAO.cari(penggunaId, kata);
+        if (status != null && !status.equals("Semua")) {
+            hasil.removeIf(b -> !b.getStatus().equals(status));
+        }
+        return hasil;
+    }
+
+    /** Pengingat: barang berstatus "Hampir Berakhir" (sisa 0-30 hari), yang paling dekat berakhir di urutan pertama. */
+    @Transactional(readOnly = true)
+    public List<Barang> pengingat(int penggunaId) {
+        List<Barang> hasil = barangDAO.cari(penggunaId, "");
+        hasil.removeIf(b -> !b.getStatus().equals("Hampir Berakhir"));
+        hasil.sort(java.util.Comparator.comparingLong(Barang::getSisaHari));
+        return hasil;
+    }
+
     // Declarative Transaction: tidak ada beginTransaction/commit/rollback manual
     @Transactional
     public boolean ubah(Barang baru, int penggunaId) {

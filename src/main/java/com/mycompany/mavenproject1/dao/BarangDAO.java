@@ -37,6 +37,17 @@ public class BarangDAO {
                 .list();
     }
 
+    /** Pencarian: barang milik pengguna yang nama atau mereknya memuat kata kunci (tanpa membedakan huruf besar/kecil). */
+    public List<Barang> cari(int penggunaId, String kata) {
+        String pola = "%" + (kata == null ? "" : kata.trim().toLowerCase()) + "%";
+        return getSession().createQuery(
+                "FROM Barang b WHERE b.penggunaId = :pid "
+                + "AND (LOWER(b.nama) LIKE :k OR LOWER(b.merek) LIKE :k) ORDER BY b.nama", Barang.class)
+                .setParameter("pid", penggunaId)
+                .setParameter("k", pola)
+                .list();
+    }
+
     /**
      * Update: mengubah atribut objek hasil get(); saat transaksi selesai
      * Hibernate otomatis membuat UPDATE. Mengembalikan false bila data tidak ditemukan.

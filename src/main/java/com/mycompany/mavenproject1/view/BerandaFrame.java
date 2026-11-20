@@ -8,6 +8,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.List;
+import javax.swing.JOptionPane;
+import com.mycompany.mavenproject1.model.Barang;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -22,8 +27,9 @@ public class BerandaFrame extends JFrame {
         {"Registrasi dan Login", "Selesai"},
         {"Tambah / Ubah / Hapus Data Barang", "Selesai"},
         {"Lihat Daftar Barang", "Selesai"},
-        {"Pencarian dan Penyaringan", "Belum tersedia"},
-        {"Pengingat Masa Garansi", "Belum tersedia"},
+        {"Pencarian dan Penyaringan", "Selesai"},
+        {"Pengingat Masa Garansi", "Selesai"},
+        {"Laporan JasperReports (PDF / XLS)", "Selesai"},
     };
 
     public BerandaFrame(Pengguna pengguna) {
@@ -46,6 +52,12 @@ public class BerandaFrame extends JFrame {
         JButton btnBarang = UI.tombol("Kelola Data Barang", true);
         isi.add(UI.rata(btnBarang));
         isi.add(Box.createVerticalStrut(8));
+        JButton btnCari = UI.tombol("Cari, Filter, dan Laporan", true);
+        isi.add(UI.rata(btnCari));
+        isi.add(Box.createVerticalStrut(8));
+        JButton btnPengingat = UI.tombol("Pengingat Garansi", false);
+        isi.add(UI.rata(btnPengingat));
+        isi.add(Box.createVerticalStrut(8));
         JButton btnLogout = UI.tombol("Logout", false);
         isi.add(UI.rata(btnLogout));
 
@@ -60,6 +72,18 @@ public class BerandaFrame extends JFrame {
             BarangService service = AppContext.getBean("serviceBarang", BarangService.class);
             new BarangForm(pengguna, service).setVisible(true);
         });
+        btnCari.addActionListener(e -> {
+            dispose();
+            new CariFrame(pengguna).setVisible(true);
+        });
+        btnPengingat.addActionListener(e -> tampilkanPengingat(pengguna, true));
+        // Pengingat otomatis muncul saat Beranda dibuka
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                tampilkanPengingat(pengguna, false);
+            }
+        });
         btnLogout.addActionListener(e -> {
             dispose();
             new LoginForm().setVisible(true);
@@ -67,6 +91,43 @@ public class BerandaFrame extends JFrame {
 
         pack();
         setLocationRelativeTo(null);
+    }
+
+    /**
+     * Menampilkan daftar barang yang garansinya hampir berakhir (sisa 30 hari atau kurang).
+     * Bila tidak ada: dialog hanya muncul jika pengguna menekan tombolnya sendiri.
+     */
+    private void tampilkanPengingat(Pengguna pengguna, boolean tombol) {
+        try {
+            BarangService service = AppContext.getBean("serviceBarang", BarangService.class);
+            List<Barang> hampir = service.pengingat(pengguna.getId());
+            int lewat = service.cari(pengguna.getId(), "", "Kedaluwarsa").size();
+            if (hampir.isEmpty() && lewat == 0) {
+                if (tombol) {
+                    JOptionPane.showMessageDialog(this, "Tidak ada garansi yang hampir berakhir.",
+                            "Pengingat Garansi", JOptionPane.INFORMATION_MESSAGE);
+                }
+                return;
+            }
+            StringBuilder sb = new StringBuilder();
+            if (!hampir.isEmpty()) {
+                sb.append("Garansi hampir berakhir:\n");
+                for (Barang b : hampir) {
+                    sb.append(" - ").append(b.getNama()).append(" (").append(b.getMerek())
+                      .append("): ").append(b.getSisaHari()).append(" hari lagi\n");
+                }
+            }
+            if (lewat > 0) {
+                sb.append("\n").append(lewat).append(" barang sudah kedaluwarsa.");
+            }
+            JOptionPane.showMessageDialog(this, sb.toString().trim(),
+                    "Pengingat Garansi", JOptionPane.WARNING_MESSAGE);
+        } catch (RuntimeException ex) {
+            if (tombol) {
+                JOptionPane.showMessageDialog(this, "Kesalahan database: " + ex.getMessage(),
+                        "Pengingat Garansi", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     private static JPanel barisFitur(String nama, String status) {
